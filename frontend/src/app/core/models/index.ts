@@ -1,0 +1,7 @@
+export * from "./admin.model"
+export * from "./client.model"
+export * from "./catalogue.model"
+export * from "./camion.model"
+export * from "./trajectoire.model"
+export * from "./notification.model"
+export * from "./responsable.model"

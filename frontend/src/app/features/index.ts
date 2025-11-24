@@ -1,0 +1,6 @@
+export * from "./dashboard/dashboard.component"
+export * from "./tracking/tracking.component"
+export * from "./catalogue/catalogue-form.component"
+export * from "./catalogue/catalogue-list.component"
+export * from "./client/client-list.component"
+export * from "./camion/camion-list.component"

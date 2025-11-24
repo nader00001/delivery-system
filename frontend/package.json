@@ -1,0 +1,48 @@
+{
+  "name": "gestion-crenaux-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Application de gestion des créneaux de livraison avec suivi GPS",
+  "scripts": {
+    "build": "ng build",
+    "lint": "ng lint",
+    "ng": "ng",
+    "start": "ng serve",
+    "test": "ng test",
+    "watch": "ng build --watch --configuration development"
+  },
+  "dependencies": {
+    "@angular/animations": "^21.0.0",
+    "@angular/common": "latest",
+    "@angular/compiler": "^21.0.0",
+    "@angular/core": "latest",
+    "@angular/forms": "latest",
+    "@angular/platform-browser": "latest",
+    "@angular/platform-browser-dynamic": "^21.0.0",
+    "@angular/router": "latest",
+    "@standard-schema/spec": "latest",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "leaflet": "^1.9.0",
+    "lucide-react": "^0.454.0",
+    "next": "16.0.4",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "rxjs": "latest",
+    "tailwind-merge": "^2.5.5",
+    "tailwindcss-animate": "^1.0.7",
+    "tslib": "^2.6.0",
+    "zone.js": "^0.15.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^21.0.0",
+    "@angular/cli": "^21.0.0",
+    "@angular/compiler-cli": "^21.0.0",
+    "@types/node": "^22",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "postcss": "^8.5",
+    "tailwindcss": "4.1.17",
+    "typescript": "^5"
+  }
+}
