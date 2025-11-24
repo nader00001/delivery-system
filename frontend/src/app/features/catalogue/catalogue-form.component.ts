@@ -1,13 +1,13 @@
-import { Component, type OnInit, inject, signal } from "@angular/core"
-import { CommonModule } from "@angular/common"
-import { FormBuilder, type FormGroup, ReactiveFormsModule, Validators } from "@angular/forms"
-import { Router, ActivatedRoute } from "@angular/router"
-import { CatalogueService } from "../../core/services/catalogue.service"
-import { ClientService } from "../../core/services/client.service"
-import type { Client } from "../../core/models/client.model"
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { CatalogueService } from '../../core/services/catalogue.service';
+import { ClientService } from '../../core/services/client.service';
+import { Client } from '../../core/models/client.model';
 
 @Component({
-  selector: "app-catalogue-form",
+  selector: 'app-catalogue-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
@@ -15,7 +15,7 @@ import type { Client } from "../../core/models/client.model"
       <div class="form-header">
         <h2>{{ isEditMode() ? 'Modifier' : 'Créer' }} un Créneau</h2>
         <button class="btn btn-outline" (click)="goBack()">
-          Retour
+          ← Retour
         </button>
       </div>
 
@@ -44,11 +44,20 @@ import type { Client } from "../../core/models/client.model"
             <div class="form-group">
               <label>Date de Début *</label>
               <input type="datetime-local" formControlName="dateDebut" required>
+              @if (catalogueForm.get('dateDebut')?.touched && catalogueForm.get('dateDebut')?.errors?.['required']) {
+                <div class="form-error">La date de début est requise</div>
+              }
             </div>
 
             <div class="form-group">
               <label>Date de Fin *</label>
               <input type="datetime-local" formControlName="dateFin" required>
+              @if (catalogueForm.get('dateFin')?.touched && catalogueForm.get('dateFin')?.errors?.['required']) {
+                <div class="form-error">La date de fin est requise</div>
+              }
+              @if (catalogueForm.errors?.['dateRange']) {
+                <div class="form-error">La date de fin doit être après la date de début</div>
+              }
             </div>
           </div>
 
@@ -70,14 +79,16 @@ import type { Client } from "../../core/models/client.model"
             Annuler
           </button>
           <button type="submit" class="btn btn-primary" [disabled]="catalogueForm.invalid || submitting()">
+            @if (submitting()) {
+              <span class="spinner-sm"></span>
+            }
             {{ isEditMode() ? 'Mettre à jour' : 'Créer' }}
           </button>
         </div>
       </form>
     </div>
   `,
-  styles: [
-    `
+  styles: [`
     .form-container {
       max-width: 800px;
       margin: 2rem auto;
@@ -97,10 +108,10 @@ import type { Client } from "../../core/models/client.model"
     }
 
     .form-content {
-      background: white;
+      background: var(--bg-primary);
       padding: 2rem;
-      border-radius: 0.5rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
     }
 
     .form-section {
@@ -112,7 +123,7 @@ import type { Client } from "../../core/models/client.model"
       color: var(--text-color);
       font-size: 1.25rem;
       padding-bottom: 0.75rem;
-      border-bottom: 2px solid #e5e7eb;
+      border-bottom: 2px solid var(--border-color);
     }
 
     .form-row {
@@ -122,77 +133,22 @@ import type { Client } from "../../core/models/client.model"
       margin-bottom: 1.5rem;
     }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .form-group label {
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-      color: var(--text-color);
-    }
-
-    .form-group input,
-    .form-group select {
-      padding: 0.75rem;
-      border: 1px solid #e5e7eb;
-      border-radius: 0.25rem;
-      font-size: 1rem;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
-
-    .form-error {
-      color: #ef4444;
-      font-size: 0.875rem;
-      margin-top: 0.25rem;
-    }
-
     .form-actions {
       display: flex;
       gap: 1rem;
       justify-content: flex-end;
       padding-top: 2rem;
-      border-top: 1px solid #e5e7eb;
+      border-top: 1px solid var(--border-color);
     }
 
-    .btn {
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 0.25rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .btn-primary {
-      background: var(--primary-color);
-      color: white;
-    }
-
-    .btn-primary:hover:not(:disabled) {
-      opacity: 0.9;
-    }
-
-    .btn-outline {
-      border: 1px solid #e5e7eb;
-      color: var(--text-color);
-      background: white;
-    }
-
-    .btn-outline:hover {
-      background: #f9fafb;
-    }
-
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    .spinner-sm {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
     }
 
     @media (max-width: 768px) {
@@ -203,49 +159,64 @@ import type { Client } from "../../core/models/client.model"
       .form-actions {
         flex-direction: column-reverse;
       }
+
+      .form-actions button {
+        width: 100%;
+      }
     }
-  `,
-  ],
+  `]
 })
 export class CatalogueFormComponent implements OnInit {
-  private readonly fb = inject(FormBuilder)
-  private readonly router = inject(Router)
-  private readonly route = inject(ActivatedRoute)
-  private readonly catalogueService = inject(CatalogueService)
-  private readonly clientService = inject(ClientService)
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly catalogueService = inject(CatalogueService);
+  private readonly clientService = inject(ClientService);
 
-  catalogueForm!: FormGroup
-  clients = signal<Client[]>([])
-  isEditMode = signal<boolean>(false)
-  submitting = signal<boolean>(false)
-  catalogueId?: number
+  catalogueForm!: FormGroup;
+  clients = signal<Client[]>([]);
+  isEditMode = signal<boolean>(false);
+  submitting = signal<boolean>(false);
+  catalogueId?: number;
 
   ngOnInit(): void {
-    this.initForm()
-    this.loadClients()
-
-    const id = this.route.snapshot.params["id"]
+    this.initForm();
+    this.loadClients();
+    
+    const id = this.route.snapshot.params['id'];
     if (id) {
-      this.isEditMode.set(true)
-      this.catalogueId = +id
-      this.loadCatalogue(this.catalogueId)
+      this.isEditMode.set(true);
+      this.catalogueId = +id;
+      this.loadCatalogue(this.catalogueId);
     }
   }
 
   initForm(): void {
     this.catalogueForm = this.fb.group({
-      clientId: ["", Validators.required],
-      dateDebut: ["", Validators.required],
-      dateFin: ["", Validators.required],
-      statut: ["disponible"],
-    })
+      clientId: ['', Validators.required],
+      dateDebut: ['', Validators.required],
+      dateFin: ['', Validators.required],
+      statut: ['disponible']
+    }, {
+      validators: this.dateRangeValidator
+    });
+  }
+
+  dateRangeValidator(form: FormGroup) {
+    const debut = form.get('dateDebut')?.value;
+    const fin = form.get('dateFin')?.value;
+    
+    if (debut && fin && new Date(debut) >= new Date(fin)) {
+      return { dateRange: true };
+    }
+    return null;
   }
 
   loadClients(): void {
     this.clientService.getAll().subscribe({
       next: (clients) => this.clients.set(clients),
-      error: (error) => console.error("Erreur chargement clients", error),
-    })
+      error: (error) => console.error('Erreur chargement clients', error)
+    });
   }
 
   loadCatalogue(id: number): void {
@@ -253,45 +224,51 @@ export class CatalogueFormComponent implements OnInit {
       next: (catalogue) => {
         this.catalogueForm.patchValue({
           clientId: catalogue.clientId,
-          dateDebut: new Date(catalogue.dateDebut).toISOString().slice(0, 16),
-          dateFin: new Date(catalogue.dateFin).toISOString().slice(0, 16),
-          statut: catalogue.statut,
-        })
+          dateDebut: this.formatDateTimeLocal(catalogue.dateDebut),
+          dateFin: this.formatDateTimeLocal(catalogue.dateFin),
+          statut: catalogue.statut
+        });
       },
-      error: (error) => console.error("Erreur chargement catalogue", error),
-    })
+      error: (error) => console.error('Erreur chargement catalogue', error)
+    });
+  }
+
+  formatDateTimeLocal(date: Date): string {
+    const d = new Date(date);
+    return d.toISOString().slice(0, 16);
   }
 
   onSubmit(): void {
-    if (this.catalogueForm.invalid) return
+    if (this.catalogueForm.invalid) return;
 
-    this.submitting.set(true)
-    const formValue = this.catalogueForm.value
+    this.submitting.set(true);
+    const formValue = this.catalogueForm.value;
 
     const catalogueData = {
       clientId: +formValue.clientId,
       dateDebut: new Date(formValue.dateDebut),
       dateFin: new Date(formValue.dateFin),
-      statut: formValue.statut,
-    }
+      statut: formValue.statut
+    };
 
     const operation = this.isEditMode()
       ? this.catalogueService.update(this.catalogueId!, catalogueData)
-      : this.catalogueService.create(catalogueData)
+      : this.catalogueService.create(catalogueData);
 
     operation.subscribe({
       next: () => {
-        this.submitting.set(false)
-        this.router.navigate(["/catalogues"])
+        this.submitting.set(false);
+        this.router.navigate(['/catalogues']);
       },
       error: (error) => {
-        console.error("Erreur sauvegarde", error)
-        this.submitting.set(false)
-      },
-    })
+        console.error('Erreur sauvegarde', error);
+        this.submitting.set(false);
+        alert('Erreur lors de la sauvegarde');
+      }
+    });
   }
 
   goBack(): void {
-    this.router.navigate(["/catalogues"])
+    this.router.navigate(['/catalogues']);
   }
 }

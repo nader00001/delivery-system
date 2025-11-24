@@ -31,8 +31,8 @@ export class ResponsableService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`)
   }
 
-  login(email: string, motDePasse: string): Observable<{ success: boolean; responsable?: ResponsableMagasin }> {
-    return this.http.post<{ success: boolean; responsable?: ResponsableMagasin }>(`${this.apiUrl}/login`, {
+  login(email: string, motDePasse: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, {
       email,
       motDePasse,
     })
