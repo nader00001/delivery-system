@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminService } from '../../core/services/admin.service';
-import { ResponsableService } from '@app/core/services';
+import { ResponsableService } from '../../core/services';
 
 @Component({
   selector: 'app-login',
@@ -229,7 +229,7 @@ export class LoginComponent {
       : this.responsableService.login(email, motDePasse);
 
     loginService.subscribe({
-      next: (response) => {
+      next: (response: any) => {
         this.submitting.set(false);
         if (response.success) {
           // Stocker l'utilisateur dans localStorage
@@ -240,7 +240,7 @@ export class LoginComponent {
           this.errorMessage.set('Email ou mot de passe incorrect');
         }
       },
-      error: (error) => {
+      error: (error: any) => {
         this.submitting.set(false);
         this.errorMessage.set('Erreur de connexion. Veuillez réessayer.');
         console.error('Erreur login', error);

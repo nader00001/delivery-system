@@ -18,7 +18,7 @@ import { IClientRepository } from '../core/repository/client.repository.interfac
 import { Client } from '../core/entities/client.entity';
 import { Inject } from '@nestjs/common';
 
-@Controller('api/clients')
+@Controller('clients')
 export class ClientController {
   constructor(
     private readonly createClientUseCase: CreateClientUseCase,

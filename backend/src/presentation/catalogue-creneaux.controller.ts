@@ -21,7 +21,7 @@ import { CatalogueCreneaux } from '../core/entities/catalogue_creneaux.entity';
 import { Inject } from '@nestjs/common';
 import { ResponsableMagasin } from 'src/core/entities/responsable-magasin.entity';
 
-@Controller('api/catalogues')
+@Controller('catalogues')
 export class CatalogueCreneauxController {
   constructor(
     private readonly createCatalogueUseCase: CreateCatalogueUseCase,

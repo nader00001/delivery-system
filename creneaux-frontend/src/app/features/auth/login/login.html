@@ -1,0 +1,73 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo">🚚</div>
+      <h1>Gestion Créneaux</h1>
+      <p>Connectez-vous à votre compte</p>
+    </div>
+
+    <div class="login-tabs">
+      <button
+        class="tab"
+        [class.active]="userType() === 'admin'"
+        (click)="userType.set('admin')">
+        Administrateur
+      </button>
+      <button
+        class="tab"
+        [class.active]="userType() === 'responsable'"
+        (click)="userType.set('responsable')">
+        Responsable Magasin
+      </button>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      @if (errorMessage()) {
+        <div class="alert alert-danger">
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <div class="form-group">
+        <label>Email</label>
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="votre@email.com"
+          autocomplete="email">
+        @if (loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['required']) {
+          <div class="form-error">L'email est requis</div>
+        }
+        @if (loginForm.get('email')?.errors?.['email']) {
+          <div class="form-error">Email invalide</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <input
+          type="password"
+          formControlName="motDePasse"
+          placeholder="••••••••"
+          autocomplete="current-password">
+        @if (loginForm.get('motDePasse')?.touched && loginForm.get('motDePasse')?.errors?.['required']) {
+          <div class="form-error">Le mot de passe est requis</div>
+        }
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary btn-lg btn-block"
+        [disabled]="loginForm.invalid || submitting()">
+        @if (submitting()) {
+          <span class="spinner-sm"></span>
+        }
+        Se connecter
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <p>Mot de passe oublié ? <a href="#">Réinitialiser</a></p>
+    </div>
+  </div>
+</div>

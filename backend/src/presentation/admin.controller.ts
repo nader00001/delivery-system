@@ -22,7 +22,7 @@ import { DeleteAdminUseCase } from '../application/use-cases/admin/delete-admin.
 import { LoginAdminUseCase } from '../application/use-cases/admin/login-admin.use-case';
 import { Admin } from '../core/entities/admin.entity';
 
-@Controller('api/admins')
+@Controller('admins')
 export class AdminController {
   constructor(
     private readonly createAdminUseCase: CreateAdminUseCase,

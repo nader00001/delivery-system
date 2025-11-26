@@ -19,7 +19,7 @@ import { INotificationRepository } from '../core/repository/notification.reposit
 import { Notification } from '../core/entities/notification.entity';
 import { Inject } from '@nestjs/common';
 
-@Controller('api/notifications')
+@Controller('notifications')
 export class NotificationController {
   constructor(
     private readonly envoyerNotificationUseCase: EnvoyerNotificationUseCase,

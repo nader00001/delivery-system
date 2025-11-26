@@ -1,23 +1,23 @@
-import { 
-  Controller, 
-  Get, 
-  Post, 
-  Put, 
-  Delete, 
-  Body, 
-  Param, 
-  Query,
-  HttpCode, 
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
   HttpStatus,
+  Inject,
+  Param,
   ParseIntPipe,
-  Inject
+  Post,
+  Put,
+  Query,
 } from '@nestjs/common';
-import { CreateCamionDto } from '../../application/dto/camion/create-camion.dto';
-import { UpdateCamionDto } from '../../application/dto/camion/update-camion.dto';
-import { ICamionRepository } from '../../core/repository/camion.repository.interface';
-import { Camion } from '../../core/entities/camion.entity';
+import { CreateCamionDto } from '../application/dto/camion/create-camion.dto';
+import { UpdateCamionDto } from '../application/dto/camion/update-camion.dto';
+import { Camion } from '../core/entities/camion.entity';
+import { ICamionRepository } from '../core/repository/camion.repository.interface';
 
-@Controller('api/camions')
+@Controller('camions')
 export class CamionController {
   constructor(
     @Inject('ICamionRepository')

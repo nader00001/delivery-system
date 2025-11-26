@@ -21,7 +21,7 @@ import { Trajectoire } from '../core/entities/trajectoire.entity';
 import { Inject } from '@nestjs/common';
 import { ResponsableMagasin } from 'src/core/entities/responsable-magasin.entity';
 
-@Controller('api/trajectoires')
+@Controller('trajectoires')
 export class TrajectoireController {
   constructor(
     private readonly createTrajectoireUseCase: CreateTrajectoireUseCase,

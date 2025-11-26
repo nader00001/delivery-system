@@ -18,7 +18,7 @@ import { ResponsableMagasin } from '../core/entities/responsable-magasin.entity'
 import { Inject } from '@nestjs/common';
 // import * as bcrypt from 'bcrypt';
 
-@Controller('api/responsables')
+@Controller('responsables')
 export class ResponsableMagasinController {
   constructor(
     @Inject('IResponsableMagasinRepository')
