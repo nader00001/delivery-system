@@ -1,1 +1,67 @@
-<p>list works!</p>
+<div class="camion-container">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h2>Gestion des Camions</h2>
+      <p class="subtitle">Gérez votre flotte de véhicules</p>
+    </div>
+
+    <button class="btn-primary" [routerLink]="['create']">
+      <i class="icon-plus"></i> Nouveau Camion
+    </button>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="filters-section">
+    <input
+      type="text"
+      placeholder="Rechercher par chauffeur, immatriculation..."
+      [(ngModel)]="searchTerm"
+      (input)="onSearch()">
+  </div>
+
+  <!-- Camion List -->
+  <div class="grid">
+
+    @for (camion of filtered; track camion.idCamion) {
+      <div class="camion-card">
+        <div class="card-icon">🚛</div>
+
+        <div class="card-content">
+          <h3>{{ camion.chauffeur }}</h3>
+
+          <div class="info-list">
+            <div class="info-item">
+              <span class="label">Immatriculation</span>
+              <span class="value">{{ camion.immatriculation || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Modèle</span>
+              <span class="value">{{ camion.modele || 'N/A' }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Téléphone</span>
+              <span class="value">{{ camion.telChauffeur }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn-outline" [routerLink]="['edit', camion.idCamion]">Modifier</button>
+          <button class="btn-danger" (click)="deleteCamion(camion)">Supprimer</button>
+        </div>
+      </div>
+    }
+
+    @empty {
+      <div class="empty-state">
+        <div class="empty-icon">🚚</div>
+        <h3>Aucun camion enregistré</h3>
+        <p>Ajoutez votre premier camion pour commencer</p>
+        <button class="btn-primary" [routerLink]="['create']">Ajouter un camion</button>
+      </div>
+    }
+
+  </div>
+</div>

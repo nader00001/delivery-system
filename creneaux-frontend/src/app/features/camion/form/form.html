@@ -1,1 +1,50 @@
-<p>form works!</p>
+<div class="form-container">
+
+  <div class="form-header">
+    <h2>{{ isEditMode() ? 'Modifier' : 'Créer' }} un Camion</h2>
+    <button class="btn btn-outline" type="button" (click)="goBack()">← Retour</button>
+  </div>
+
+  <form [formGroup]="camionForm" (ngSubmit)="onSubmit()" class="form-card">
+
+    <h3 class="section-title">Informations du Camion</h3>
+
+    <div class="form-group">
+      <label>Chauffeur *</label>
+      <input type="text" formControlName="chauffeur" placeholder="Nom du chauffeur">
+      <div class="form-error" *ngIf="camionForm.get('chauffeur')?.touched && camionForm.get('chauffeur')?.hasError('required')">
+        Le nom du chauffeur est requis
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Téléphone *</label>
+        <input type="tel" formControlName="telChauffeur" placeholder="+216 XX XXX XXX">
+        <div class="form-error" *ngIf="camionForm.get('telChauffeur')?.touched && camionForm.get('telChauffeur')?.hasError('required')">
+          Le téléphone est requis
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Immatriculation</label>
+        <input type="text" formControlName="immatriculation" placeholder="123 TU 4567">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Modèle</label>
+      <input type="text" formControlName="modele" placeholder="Ex: Mercedes Actros">
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-outline" type="button" (click)="goBack()">Annuler</button>
+
+      <button class="btn btn-primary" type="submit" [disabled]="camionForm.invalid || submitting()">
+        <span *ngIf="submitting()" class="spinner-sm"></span>
+        {{ isEditMode() ? 'Mettre à jour' : 'Créer' }}
+      </button>
+    </div>
+
+  </form>
+</div>

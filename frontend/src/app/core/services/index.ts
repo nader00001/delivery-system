@@ -1,7 +1,0 @@
-export * from "./admin.service"
-export * from "./client.service"
-export * from "./catalogue.service"
-export * from "./camion.service"
-export * from "./trajectoire.service"
-export * from "./notification.service"
-export * from "./responsable.service"

@@ -1,0 +1,144 @@
+.camion-container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Header */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Search bar */
+.filters-section {
+  background: var(--bg-primary);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2rem;
+}
+
+.filters-section input {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  font-size: 0.95rem;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Cards */
+.camion-card {
+  background: var(--bg-primary);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: 0.3s ease;
+  text-align: center;
+}
+
+.camion-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.card-content h3 {
+  margin-bottom: 1.2rem;
+  color: var(--text-color);
+}
+
+/* Info list */
+.info-list {
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.value {
+  color: var(--text-color);
+}
+
+/* Buttons */
+.card-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  grid-column: 1 / -1;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+/* Reusable buttons */
+.btn-primary {
+  background: var(--primary-color);
+  color: #fff;
+  padding: 0.75rem 1.3rem;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-outline {
+  border: 1px solid var(--border-color);
+  padding: 0.6rem 1rem;
+  background: transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-md);
+}

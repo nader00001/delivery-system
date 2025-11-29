@@ -1,10 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdminService } from '../../../core/services/admin.service';
-import { ResponsableMagasinService } from '../../../core/services/responsable.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { ResponsableMagasinService } from '../../../core/services/responsable.service';
 
 @Component({
   selector: 'app-login',
@@ -37,37 +37,45 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
-    if (this.loginForm.invalid) return;
+  if (this.loginForm.invalid) return;
 
-    this.submitting.set(true);
-    this.errorMessage.set('');
+  this.submitting.set(true);
+  this.errorMessage.set('');
 
-    const { email, motDePasse } = this.loginForm.value;
+  const { email, motDePasse } = this.loginForm.value;
 
-    const loginService = this.userType() === 'admin'
-      ? this.adminService.login(email, motDePasse)
-      : this.responsableService.login(email, motDePasse);
+  const loginService = this.userType() === 'admin'
+    ? this.adminService.login(email, motDePasse)
+    : this.responsableService.login(email, motDePasse);
 
-    loginService.subscribe({
-      next: (response: any) => {
-        this.submitting.set(false);
-        if (response.success) {
-          const user = this.userType() === 'admin' ? response.admin : response.responsable;
-          this.authService.setUser({
-            id: user!.idAdmin || user!.idResponsable,
-            nom: user!.nom,
-            email: user!.email,
-            type: this.userType()
-          });
-          this.router.navigate(['/dashboard']);
-        } else {
-          this.errorMessage.set('Email ou mot de passe incorrect');
-        }
-      },
-      error: () => {
-        this.submitting.set(false);
-        this.errorMessage.set('Erreur de connexion. Veuillez réessayer.');
+  loginService.subscribe({
+    next: (response: any) => {
+      this.submitting.set(false);
+
+      // ⭐ Correction principale : le backend renvoie "data"
+      const data = response.data ?? response;
+
+      if (data?.success === true) {
+        const user = this.userType() === 'admin' ? data.admin : data.responsable;
+
+        this.authService.setUser({
+          id: user?.idAdmin || user?.idResponsable,
+          nom: user?.nom,
+          email: user?.email,
+          type: this.userType()
+        });
+
+        this.router.navigate(['/dashboard']);
+      } else {
+        this.errorMessage.set('Email ou mot de passe incorrect');
       }
-    });
-  }
+    },
+
+    error: () => {
+      this.submitting.set(false);
+      this.errorMessage.set('Erreur de connexion. Veuillez réessayer.');
+    }
+  });
+}
+
 }
